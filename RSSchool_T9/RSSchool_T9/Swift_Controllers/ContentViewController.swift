@@ -261,7 +261,6 @@ class ContentViewController: UIViewController {
 //MARK: Create Gallery
 extension ContentViewController{
     
-    
     //MARK: getScrollHeightGallery
     private func getScrollHeightGallery(gallery: Gallery)->CGFloat{
         let closeButton: CGFloat = 40
