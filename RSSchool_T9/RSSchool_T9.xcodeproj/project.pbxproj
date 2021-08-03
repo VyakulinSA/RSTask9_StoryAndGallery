@@ -25,6 +25,14 @@
 		2BB9F30E26AF5FA900F43852 /* story-4-path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2BB9F30D26AF5FA900F43852 /* story-4-path.swift */; };
 		2BB9F31026AF5FB300F43852 /* s4-text.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2BB9F30F26AF5FB300F43852 /* s4-text.txt */; };
 		2BB9F31226AF5FBE00F43852 /* s4-title.txt in Resources */ = {isa = PBXBuildFile; fileRef = 2BB9F31126AF5FBE00F43852 /* s4-title.txt */; };
+		3C15620926B876530068CA78 /* ZoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C15620826B876530068CA78 /* ZoomViewController.swift */; };
+		3C15620B26B87F9A0068CA78 /* CustomTapGestureRecognizer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C15620A26B87F9A0068CA78 /* CustomTapGestureRecognizer.swift */; };
+		3C1C56C626B9CADE0002A669 /* story-5-path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1C56C526B9CADE0002A669 /* story-5-path.swift */; };
+		3C1C56C926B9CE420002A669 /* s5-text.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C1C56C726B9CE420002A669 /* s5-text.txt */; };
+		3C1C56CA26B9CE420002A669 /* s5-title.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C1C56C826B9CE420002A669 /* s5-title.txt */; };
+		3C1C56CF26B9D8BD0002A669 /* s6-title.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C1C56CC26B9D8BD0002A669 /* s6-title.txt */; };
+		3C1C56D026B9D8BD0002A669 /* story-6-path.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C1C56CD26B9D8BD0002A669 /* story-6-path.swift */; };
+		3C1C56D126B9D8BD0002A669 /* s6-text.txt in Resources */ = {isa = PBXBuildFile; fileRef = 3C1C56CE26B9D8BD0002A669 /* s6-text.txt */; };
 		3C5961A726B1641A005D1B91 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C5961A626B1641A005D1B91 /* MainTabBarController.swift */; };
 		3C5961B726B17256005D1B91 /* SettingsNavigationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5961B626B17256005D1B91 /* SettingsNavigationController.m */; };
 		3C5961BA26B17287005D1B91 /* SettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3C5961B926B17287005D1B91 /* SettingsViewController.m */; };
@@ -60,6 +68,14 @@
 		2BB9F30D26AF5FA900F43852 /* story-4-path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "story-4-path.swift"; sourceTree = "<group>"; };
 		2BB9F30F26AF5FB300F43852 /* s4-text.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "s4-text.txt"; sourceTree = "<group>"; };
 		2BB9F31126AF5FBE00F43852 /* s4-title.txt */ = {isa = PBXFileReference; lastKnownFileType = text; path = "s4-title.txt"; sourceTree = "<group>"; };
+		3C15620826B876530068CA78 /* ZoomViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ZoomViewController.swift; sourceTree = "<group>"; };
+		3C15620A26B87F9A0068CA78 /* CustomTapGestureRecognizer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTapGestureRecognizer.swift; sourceTree = "<group>"; };
+		3C1C56C526B9CADE0002A669 /* story-5-path.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "story-5-path.swift"; sourceTree = "<group>"; };
+		3C1C56C726B9CE420002A669 /* s5-text.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "s5-text.txt"; sourceTree = "<group>"; };
+		3C1C56C826B9CE420002A669 /* s5-title.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "s5-title.txt"; sourceTree = "<group>"; };
+		3C1C56CC26B9D8BD0002A669 /* s6-title.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "s6-title.txt"; sourceTree = "<group>"; };
+		3C1C56CD26B9D8BD0002A669 /* story-6-path.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "story-6-path.swift"; sourceTree = "<group>"; };
+		3C1C56CE26B9D8BD0002A669 /* s6-text.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "s6-text.txt"; sourceTree = "<group>"; };
 		3C5961A126B15F11005D1B91 /* RSSchool_T9-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RSSchool_T9-Bridging-Header.h"; sourceTree = "<group>"; };
 		3C5961A626B1641A005D1B91 /* MainTabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		3C5961B526B17256005D1B91 /* SettingsNavigationController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SettingsNavigationController.h; sourceTree = "<group>"; };
@@ -114,7 +130,7 @@
 				3C5961A526B15F17005D1B91 /* Objc_Controllers */,
 				3CE3A9CF26B6D450000F7473 /* Objc_CustomViews */,
 				3C5961A826B16420005D1B91 /* Swift_Controllers */,
-				3CE3A9CA26B6CF44000F7473 /* Swift_CustomViews */,
+				3CE3A9CA26B6CF44000F7473 /* Swift_CustomClass */,
 				3C5961DC26B2E84D005D1B91 /* SupportClass.swift */,
 				3C5961A926B1648E005D1B91 /* Settings */,
 				2BB9E76926AB605900112651 /* Info.plist */,
@@ -135,6 +151,8 @@
 		2BB9F29226AE017D00F43852 /* Static */ = {
 			isa = PBXGroup;
 			children = (
+				3C1C56CB26B9D8BD0002A669 /* story-6 */,
+				3C1C56C426B9CAB80002A669 /* story-5 */,
 				2BB9F30C26AF5F9C00F43852 /* story-4 */,
 				2BB9F30326AF5D7E00F43852 /* story-3 */,
 				2BB9F2FC26AF554C00F43852 /* story-2 */,
@@ -183,6 +201,26 @@
 			path = "story-4";
 			sourceTree = "<group>";
 		};
+		3C1C56C426B9CAB80002A669 /* story-5 */ = {
+			isa = PBXGroup;
+			children = (
+				3C1C56C726B9CE420002A669 /* s5-text.txt */,
+				3C1C56C826B9CE420002A669 /* s5-title.txt */,
+				3C1C56C526B9CADE0002A669 /* story-5-path.swift */,
+			);
+			path = "story-5";
+			sourceTree = "<group>";
+		};
+		3C1C56CB26B9D8BD0002A669 /* story-6 */ = {
+			isa = PBXGroup;
+			children = (
+				3C1C56CC26B9D8BD0002A669 /* s6-title.txt */,
+				3C1C56CD26B9D8BD0002A669 /* story-6-path.swift */,
+				3C1C56CE26B9D8BD0002A669 /* s6-text.txt */,
+			);
+			path = "story-6";
+			sourceTree = "<group>";
+		};
 		3C5961A526B15F17005D1B91 /* Objc_Controllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -202,6 +240,7 @@
 				3C5961A626B1641A005D1B91 /* MainTabBarController.swift */,
 				3C5961C126B1A79A005D1B91 /* ItemsViewController.swift */,
 				3CE3A9C626B5A410000F7473 /* ContentViewController.swift */,
+				3C15620826B876530068CA78 /* ZoomViewController.swift */,
 			);
 			path = Swift_Controllers;
 			sourceTree = "<group>";
@@ -218,14 +257,15 @@
 			path = Settings;
 			sourceTree = "<group>";
 		};
-		3CE3A9CA26B6CF44000F7473 /* Swift_CustomViews */ = {
+		3CE3A9CA26B6CF44000F7473 /* Swift_CustomClass */ = {
 			isa = PBXGroup;
 			children = (
 				3CE3A9C426B5760F000F7473 /* ItemCollectionViewCell.swift */,
 				3CE3A9D026B6D48A000F7473 /* StoryCollectionViewCell.swift */,
 				3CE3A9CD26B6D052000F7473 /* CustomLabel.swift */,
+				3C15620A26B87F9A0068CA78 /* CustomTapGestureRecognizer.swift */,
 			);
-			path = Swift_CustomViews;
+			path = Swift_CustomClass;
 			sourceTree = "<group>";
 		};
 		3CE3A9CF26B6D450000F7473 /* Objc_CustomViews */ = {
@@ -301,6 +341,7 @@
 			files = (
 				2BB9E76826AB605900112651 /* LaunchScreen.storyboard in Resources */,
 				2BB9F30726AF5D9D00F43852 /* s3-text.txt in Resources */,
+				3C1C56D126B9D8BD0002A669 /* s6-text.txt in Resources */,
 				2BB9F30926AF5DAF00F43852 /* s3-title.txt in Resources */,
 				2BB9F31226AF5FBE00F43852 /* s4-title.txt in Resources */,
 				2BB9F29526AE01A300F43852 /* s1-title.txt in Resources */,
@@ -309,7 +350,10 @@
 				2BB9E76526AB605900112651 /* Assets.xcassets in Resources */,
 				2BB9F30226AF57B500F43852 /* s2-text.txt in Resources */,
 				2BB9E76326AB605700112651 /* Main.storyboard in Resources */,
+				3C1C56CA26B9CE420002A669 /* s5-title.txt in Resources */,
 				2BB9F29726AE01B800F43852 /* s1-text.txt in Resources */,
+				3C1C56CF26B9D8BD0002A669 /* s6-title.txt in Resources */,
+				3C1C56C926B9CE420002A669 /* s5-text.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -320,10 +364,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3C1C56D026B9D8BD0002A669 /* story-6-path.swift in Sources */,
 				3C5961DD26B2E84D005D1B91 /* SupportClass.swift in Sources */,
 				2BB9F30126AF557E00F43852 /* story-2-path.swift in Sources */,
 				3CE3A9C726B5A410000F7473 /* ContentViewController.swift in Sources */,
 				2BB9E75C26AB605700112651 /* AppDelegate.swift in Sources */,
+				3C1C56C626B9CADE0002A669 /* story-5-path.swift in Sources */,
 				3C5961A726B1641A005D1B91 /* MainTabBarController.swift in Sources */,
 				3C5961D126B1C4DA005D1B91 /* SettingTableViewCell.m in Sources */,
 				3CE3A9D126B6D48A000F7473 /* StoryCollectionViewCell.swift in Sources */,
@@ -331,6 +377,8 @@
 				3C5961D926B2C2F5005D1B91 /* ColorItem.m in Sources */,
 				2BB9F29126ADFAF100F43852 /* Data.swift in Sources */,
 				2BB9F2EC26AF1F6200F43852 /* story-1-path.swift in Sources */,
+				3C15620926B876530068CA78 /* ZoomViewController.swift in Sources */,
+				3C15620B26B87F9A0068CA78 /* CustomTapGestureRecognizer.swift in Sources */,
 				3CE3A9CE26B6D052000F7473 /* CustomLabel.swift in Sources */,
 				3C5961C226B1A79A005D1B91 /* ItemsViewController.swift in Sources */,
 				2BB9F30E26AF5FA900F43852 /* story-4-path.swift in Sources */,

@@ -30,6 +30,9 @@ class ContentViewController: UIViewController {
     private let scrollHeight: CGFloat = 0
     //story
     private var story: Story?
+    //gallery
+    private var galleryImage = UIImage()
+    private var dynamicImagesLoad = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -37,9 +40,10 @@ class ContentViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         //setup padding in custom lavbel
-        titleLabel.settParam(top: 1, left: 0, bottom: 0, right: 0)
-        typeLabel.settParam(top: 8, left: 30, bottom: 3, right: 30)
+        titleLabel.settParam(top: 8, left: 0, bottom: 0, right: 0)
+        typeLabel.settParam(top: 8, left: 15, bottom: 3, right: 15)
         textView.settParam(top: 30, left: 30, bottom: 30, right: 40)
+        typeLabel.adjustsFontSizeToFitWidth = true
         
 //        contentType = FillingData.data[0]
         
@@ -52,7 +56,7 @@ class ContentViewController: UIViewController {
             //setup all elements for storyView
             self.setupStoryMode(story: story)
             //setup scrollView.contentSize - Height
-            scrollView.contentSize = CGSize(width: self.view.frame.width, height: getScrollHeightStory())
+//            scrollView.contentSize = CGSize(width: self.view.frame.width, height: getScrollHeightStory())
 
         case .gallery(let gallery):
             //setup scrollView.contentSize - Height
@@ -68,7 +72,9 @@ class ContentViewController: UIViewController {
         switch contentType {
         case .story(_):
             scrollView.contentSize = CGSize(width: self.view.frame.width, height: getScrollHeightStory())
+            contentView.heightAnchor.constraint(equalToConstant: scrollView.contentSize.height).isActive = true
         case .gallery(_):
+            contentView.heightAnchor.constraint(equalToConstant: scrollView.contentSize.height).isActive = true
             print("gallery")
         case .none:
             print("none")
@@ -86,7 +92,7 @@ class ContentViewController: UIViewController {
             scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
             scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
             scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
         ])
         
         //Setup contentView
@@ -97,7 +103,7 @@ class ContentViewController: UIViewController {
         NSLayoutConstraint.activate([
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-            contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+//            contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         ])
         
         //PreSett elements on contentView for gallery and story
@@ -144,7 +150,7 @@ class ContentViewController: UIViewController {
     @objc private func closeButtonTapped(){
         self.dismiss(animated: true, completion: nil)
     }
-    
+    //MARK: setupDetailView
     private func setupDetailView(){
         let maskView = UIView()
         maskView.layer.cornerRadius = 8
@@ -277,11 +283,14 @@ extension ContentViewController{
         detailView.image = gallery.coverImage
         typeLabel.text = gallery.type
         titleLabel.text = gallery.title
-
-        for image in gallery.images {
-            let lastView = imageViewArray.last ?? nil
-            imageViewArray.append(setupDinamicImageView(lastView: lastView, image: image))
+        if !self.dynamicImagesLoad{
+            for image in gallery.images {
+                let lastView = imageViewArray.last ?? nil
+                imageViewArray.append(setupDinamicImageView(lastView: lastView, image: image))
+            }
+            self.dynamicImagesLoad = true
         }
+
     }
     
     //MARK: setupDinamicImageView
@@ -330,7 +339,23 @@ extension ContentViewController{
         ])
         
         imageView.image = image
+        
+        //MARK: Setup gestureRecogniser
+        let gestureTap = CustomTapGestureRecognizer(target: self, action:  #selector (self.actionUITapGestureRecognizer(_:)))
+        gestureTap.image = image
+        imageView.isUserInteractionEnabled = true
+        imageView.addGestureRecognizer(gestureTap)
+    
+        
         return maskView
+    }
+    
+    @objc func actionUITapGestureRecognizer (_ sender: CustomTapGestureRecognizer){
+        let zoom = ZoomViewController()
+        zoom.galleryImage = sender.image
+        zoom.modalPresentationStyle = .fullScreen
+        present(zoom, animated: true, completion: nil)
+        
     }
 }
 
@@ -431,7 +456,7 @@ extension ContentViewController{
     
     //ollectionView Delegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 73, height: 60.43)
+        return CGSize(width: 75, height: 75)
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
@@ -449,6 +474,7 @@ extension ContentViewController{
     }
     
 }
+
 
 
 ////MARK: SwiftUI

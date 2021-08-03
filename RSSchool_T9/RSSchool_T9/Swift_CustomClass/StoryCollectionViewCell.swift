@@ -10,6 +10,7 @@
 import UIKit
 
 class StoryCollectionViewCell: UICollectionViewCell {
+    private let supClass = SupportClass.sharedInstance()
     var storyPath: CGPath?
     var storyColor: CGColor?
     let shLayer = CAShapeLayer()
@@ -26,7 +27,13 @@ class StoryCollectionViewCell: UICollectionViewCell {
         let animation : CABasicAnimation = CABasicAnimation(keyPath: "strokeEnd")
         animation.fromValue = 0.0
         animation.toValue = 1.0
-        animation.duration = 3.0
+        
+        if supClass.switchDrawStories {
+            animation.duration = 3.0
+        } else {
+            animation.duration = 0
+        }
+        
 
         shLayer.add(animation, forKey: "myStroke")
         self.layer.addSublayer(shLayer)
