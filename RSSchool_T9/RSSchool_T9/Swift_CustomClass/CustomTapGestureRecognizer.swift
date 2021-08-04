@@ -12,4 +12,5 @@ import UIKit
 class CustomTapGestureRecognizer: UITapGestureRecognizer {
 
     var image = UIImage()
+    var portrait = true
 }

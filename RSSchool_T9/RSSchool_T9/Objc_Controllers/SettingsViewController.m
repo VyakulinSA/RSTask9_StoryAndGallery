@@ -49,11 +49,12 @@
     
     [self.view addSubview:self.tableView];
     
+    UILayoutGuide *guide = self.view.safeAreaLayoutGuide;
     [NSLayoutConstraint activateConstraints:@[
-        [self.tableView.leadingAnchor constraintEqualToAnchor: self.view.leadingAnchor constant:36],
-        [self.tableView.topAnchor constraintEqualToAnchor: self.view.topAnchor constant:120],
-        [self.tableView.trailingAnchor constraintEqualToAnchor: self.view.trailingAnchor constant:-35],
-        [self.tableView.heightAnchor constraintEqualToConstant: 104]
+        [self.tableView.leadingAnchor constraintEqualToAnchor: guide.leadingAnchor constant:20],
+        [self.tableView.topAnchor constraintEqualToAnchor: guide.topAnchor constant:35],
+        [self.tableView.trailingAnchor constraintEqualToAnchor: guide.trailingAnchor constant:-20],
+        [self.tableView.heightAnchor constraintEqualToConstant: 103]
     ]];
     
     

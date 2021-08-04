@@ -10,24 +10,34 @@
 import UIKit
 
 class ItemsViewController: UIViewController, UICollectionViewDelegateFlowLayout, UICollectionViewDelegate, UICollectionViewDataSource {
-    
+    let layout = UICollectionViewFlowLayout()
+    var collView = UICollectionView(frame: CGRect.zero, collectionViewLayout: UICollectionViewFlowLayout())
+    var itemPortrait = true
 
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let layout = UICollectionViewFlowLayout()
-        
-        let collView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
+        collView = UICollectionView(frame: self.view.frame, collectionViewLayout: layout)
         collView.backgroundColor = .white
         collView.register(ItemCollectionViewCell.self, forCellWithReuseIdentifier: "ItemCell")
+        collView.contentInsetAdjustmentBehavior = .always
         
         collView.delegate = self
         collView.dataSource = self
         
         self.view.addSubview(collView)
+
     }
+    
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        collView.frame = self.view.bounds
+        collView.collectionViewLayout.invalidateLayout()
+    }
+    
+    
 
 }
 
@@ -51,11 +61,30 @@ extension ItemsViewController{
     
     //MARK: CollectionView Delegate
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: 179, height: 220)
+        
+        if UIDevice.current.orientation.isPortrait{
+            let width = UIScreen.main.bounds.width
+            let itemWidth = (width - 40 - 16) / 2
+            self.itemPortrait = true
+            return CGSize(width: itemWidth, height: itemWidth * 1.23)
+        } else {
+            let height = UIScreen.main.bounds.height
+            let itemHeight = (height - 90 - 30)
+            self.itemPortrait = false
+            return CGSize(width: itemHeight / 1.23, height: itemHeight)
+        }
+        
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-        return UIEdgeInsets(top: 40, left: 20, bottom: 50, right: 20)
+        
+        if UIDevice.current.orientation.isPortrait{
+//            print("item portrait")
+            return UIEdgeInsets(top: 40, left: 20, bottom: 50, right: 20)
+        } else {
+//            print("item landscape")
+            return UIEdgeInsets(top: 40, left: 50, bottom: 50, right: 50)
+        }
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
@@ -70,8 +99,11 @@ extension ItemsViewController{
         let presentVC = ContentViewController()
         let item = FillingData.data[indexPath.item]
         presentVC.contentType = item
+        presentVC.portrait = self.itemPortrait
         presentVC.modalPresentationStyle = .fullScreen
         present(presentVC, animated: true, completion: nil)
         
     }
+    
+    
 }

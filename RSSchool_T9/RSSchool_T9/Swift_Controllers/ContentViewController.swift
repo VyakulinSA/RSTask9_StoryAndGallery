@@ -13,39 +13,99 @@ class ContentViewController: UIViewController {
     let supClass = SupportClass.sharedInstance()
     var contentType: ContentType?
     //global views
-    private let scrollView = UIScrollView()
-    private let contentView = UIView()
+    private var scrollView = UIScrollView()
+    private var contentView = UIView()
     //view in contentView
-    private let detailView = UIImageView()
-    private let titleLabel = CustomLabel()
-    private let typeLabel = CustomLabel()
-    private let lineView = UILabel()
-    private let textView = CustomLabel()
+    private var detailView = UIImageView()
+    private var titleLabel = CustomLabel()
+    private var typeLabel = CustomLabel()
+    private var lineView = UILabel()
+    private var textView = CustomLabel()
+    var closeButton = UIButton()
+    var detailMaskView = UIView()
     //gradient
-    private let gradView = UIView()
-    private let gradientLayer = CAGradientLayer()
+    private var gradView = UIView()
+    private var gradientLayer = CAGradientLayer()
     //array for gallery images
     private var imageViewArray = [UIView]()
     //for dynamic count height for galleryImages
-    private let scrollHeight: CGFloat = 0
+    private var scrollHeight: CGFloat = 0
     //story
     private var story: Story?
     //gallery
     private var galleryImage = UIImage()
     private var dynamicImagesLoad = false
+    var screenWidth = UIScreen.main.bounds.width
+    var screenHeight = UIScreen.main.bounds.height
+    var portrait = true
+    
+    var safeGuide = UILayoutGuide()
+    
+    func reload() {
+        //global views
+        self.scrollView = UIScrollView()
+        self.contentView = UIView()
+        self.detailView = UIImageView()
+        self.titleLabel = CustomLabel()
+        self.typeLabel = CustomLabel()
+        self.lineView = UILabel()
+//        self.textView = CustomLabel()
+        self.closeButton = UIButton()
+        self.detailMaskView = UIView()
+        //gradient
+        self.gradView = UIView()
+        self.gradientLayer = CAGradientLayer()
+        //array for gallery images
+        self.imageViewArray = [UIView]()
+        //for dynamic count height for galleryImages
+        self.scrollHeight = 0
+        //gallery
+        self.galleryImage = UIImage()
+        self.dynamicImagesLoad = false
+        self.screenWidth = UIScreen.main.bounds.width
+        self.screenHeight = UIScreen.main.bounds.height
+        self.safeGuide = UILayoutGuide()
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(deviceRotated), name: UIDevice.orientationDidChangeNotification, object: nil)
+//        print(self.portrait)
+    }
+    
+    //MARK: deviceRotated
+    @objc func deviceRotated() {
+        if UIDevice.current.orientation.isPortrait{
+//            print("portrait")
+            self.portrait = true
+            self.view.subviews.forEach({ $0.removeFromSuperview() })
+            reload()
+            viewWillAppear(true)
+            viewDidAppear(true)
+            
+            
+        } else {
+//            print("lendscape")
+            self.portrait = false
+            self.view.subviews.forEach({ $0.removeFromSuperview() })
+            reload()
+            viewWillAppear(true)
+            viewDidAppear(true)
+        
+            
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
+        safeGuide = self.view.safeAreaLayoutGuide
         //setup padding in custom lavbel
         titleLabel.settParam(top: 8, left: 0, bottom: 0, right: 0)
         typeLabel.settParam(top: 8, left: 15, bottom: 3, right: 15)
         textView.settParam(top: 30, left: 30, bottom: 30, right: 40)
         typeLabel.adjustsFontSizeToFitWidth = true
         
-//        contentType = FillingData.data[0]
+        //        contentType = FillingData.data[0]
         
         setupScrollAndContentViews()
         
@@ -55,9 +115,9 @@ class ContentViewController: UIViewController {
             scrollView.contentSize = CGSize(width: self.view.frame.width, height: 2000)
             //setup all elements for storyView
             self.setupStoryMode(story: story)
-            //setup scrollView.contentSize - Height
-//            scrollView.contentSize = CGSize(width: self.view.frame.width, height: getScrollHeightStory())
-
+        //setup scrollView.contentSize - Height
+        //            scrollView.contentSize = CGSize(width: self.view.frame.width, height: getScrollHeightStory())
+        
         case .gallery(let gallery):
             //setup scrollView.contentSize - Height
             scrollView.contentSize = CGSize(width: self.view.frame.width, height: getScrollHeightGallery(gallery: gallery))
@@ -75,25 +135,33 @@ class ContentViewController: UIViewController {
             contentView.heightAnchor.constraint(equalToConstant: scrollView.contentSize.height).isActive = true
         case .gallery(_):
             contentView.heightAnchor.constraint(equalToConstant: scrollView.contentSize.height).isActive = true
-            print("gallery")
+//            print("gallery")
         case .none:
             print("none")
         }
     }
-
+    
+    
+    
     //MARK: Setup scrollView and contentView + setupCloseButton + setupDetailView
     private func setupScrollAndContentViews(){
         //Setup scrollView
         scrollView.backgroundColor = .black
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.contentInsetAdjustmentBehavior = .scrollableAxes
+        scrollView.delegate = self
         self.view.addSubview(scrollView)
         
+        
+        
         NSLayoutConstraint.activate([
-            scrollView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
-            scrollView.topAnchor.constraint(equalTo: self.view.topAnchor),
-            scrollView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
-            scrollView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor)
+            scrollView.leadingAnchor.constraint(equalTo: safeGuide.leadingAnchor),
+            scrollView.topAnchor.constraint(equalTo: safeGuide.topAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: safeGuide.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: safeGuide.bottomAnchor)
         ])
+        
+        
         
         //Setup contentView
         contentView.backgroundColor = .black
@@ -103,7 +171,7 @@ class ContentViewController: UIViewController {
         NSLayoutConstraint.activate([
             contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
             contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor),
-//            contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
+            //            contentView.heightAnchor.constraint(equalTo: scrollView.heightAnchor)
         ])
         
         //PreSett elements on contentView for gallery and story
@@ -111,10 +179,9 @@ class ContentViewController: UIViewController {
         setupDetailView()
     }
     
-    
     //MARK: setupCloseButton
     private func setupCloseButton(){
-        let closeButton = UIButton()
+        
         
         closeButton.layer.borderWidth = 1
         closeButton.layer.borderColor = UIColor.white.cgColor
@@ -124,18 +191,27 @@ class ContentViewController: UIViewController {
         
         contentView.addSubview(closeButton)
         
-        NSLayoutConstraint.activate([
-            closeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -25),
-            closeButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
-            closeButton.heightAnchor.constraint(equalToConstant: 40),
-            closeButton.widthAnchor.constraint(equalToConstant: 40),
-        ])
+        if self.portrait{
+            NSLayoutConstraint.activate([
+                closeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -25),
+                closeButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 0),
+                closeButton.heightAnchor.constraint(equalToConstant: 40),
+                closeButton.widthAnchor.constraint(equalToConstant: 40),
+            ])
+        }else{
+            NSLayoutConstraint.activate([
+                closeButton.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,constant: -25),
+                closeButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+                closeButton.heightAnchor.constraint(equalToConstant: 40),
+                closeButton.widthAnchor.constraint(equalToConstant: 40),
+            ])
+        }
         
-        let xmarkLabel = UILabel()
+        
+        let xmarkLabel = UIImageView()
         xmarkLabel.translatesAutoresizingMaskIntoConstraints = false
-        xmarkLabel.text = "X"
-        xmarkLabel.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
-        xmarkLabel.font = UIFont(name: "SFProDisplay-Regular", size: 18)
+        xmarkLabel.image = UIImage(systemName: "xmark")
+        xmarkLabel.tintColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
         
         closeButton.addSubview(xmarkLabel)
         
@@ -152,19 +228,34 @@ class ContentViewController: UIViewController {
     }
     //MARK: setupDetailView
     private func setupDetailView(){
-        let maskView = UIView()
-        maskView.layer.cornerRadius = 8
-        maskView.layer.masksToBounds = true
-        maskView.translatesAutoresizingMaskIntoConstraints = false
         
-        contentView.addSubview(maskView)
+        detailMaskView.layer.cornerRadius = 8
+        detailMaskView.layer.masksToBounds = true
+        detailMaskView.translatesAutoresizingMaskIntoConstraints = false
         
-        NSLayoutConstraint.activate([
-            maskView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            maskView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 70),
-            maskView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            maskView.heightAnchor.constraint(equalToConstant: 519)
-        ])
+        contentView.addSubview(detailMaskView)
+        if self.portrait{
+            screenHeight = UIScreen.main.bounds.height
+            screenWidth = UIScreen.main.bounds.width
+            NSLayoutConstraint.activate([
+                detailMaskView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+                detailMaskView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 70),
+                detailMaskView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+                detailMaskView.widthAnchor.constraint(equalToConstant: self.screenWidth - 40),
+                detailMaskView.heightAnchor.constraint(equalToConstant: ((self.screenWidth - 40) * 1.37) + 19)
+            ])
+        }else{
+            screenHeight = UIScreen.main.bounds.height
+            screenWidth = UIScreen.main.bounds.width
+            NSLayoutConstraint.activate([
+                detailMaskView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 10),
+                detailMaskView.heightAnchor.constraint(equalToConstant: screenHeight + 19),
+                detailMaskView.widthAnchor.constraint(equalToConstant: screenHeight / 1.37),
+                detailMaskView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            ])
+        }
+        
+        
         
         detailView.layer.borderWidth = 1
         detailView.layer.borderColor = UIColor.white.cgColor
@@ -173,14 +264,15 @@ class ContentViewController: UIViewController {
         detailView.translatesAutoresizingMaskIntoConstraints = false
         detailView.contentMode = .scaleAspectFill
         
-        maskView.addSubview(detailView)
+        detailMaskView.addSubview(detailView)
         
         NSLayoutConstraint.activate([
-            detailView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            detailView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 70),
-            detailView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            detailView.heightAnchor.constraint(equalToConstant: 500)
+            detailView.leadingAnchor.constraint(equalTo: detailMaskView.leadingAnchor, constant: 0),
+            detailView.topAnchor.constraint(equalTo: detailMaskView.topAnchor, constant: 0),
+            detailView.trailingAnchor.constraint(equalTo: detailMaskView.trailingAnchor, constant: 0),
+            detailView.bottomAnchor.constraint(equalTo: detailMaskView.bottomAnchor, constant: -19)
         ])
+        
         
         gradView.translatesAutoresizingMaskIntoConstraints = false
         detailView.addSubview(gradView)
@@ -208,7 +300,7 @@ class ContentViewController: UIViewController {
             titleLabel.trailingAnchor.constraint(equalTo: detailView.trailingAnchor, constant: -30),
             titleLabel.bottomAnchor.constraint(equalTo: detailView.bottomAnchor, constant: -55),
         ])
-    
+        
         typeLabel.translatesAutoresizingMaskIntoConstraints = false
         typeLabel.layer.borderWidth = 1
         typeLabel.layer.borderColor = UIColor.white.cgColor
@@ -220,12 +312,12 @@ class ContentViewController: UIViewController {
         typeLabel.font = UIFont(name: "Rockwell-Regular", size: 24)
         typeLabel.textAlignment = .center
         
-        maskView.addSubview(typeLabel)
+        detailMaskView.addSubview(typeLabel)
         
         NSLayoutConstraint.activate([
-            typeLabel.leadingAnchor.constraint(equalTo: maskView.leadingAnchor, constant: 111),
-            typeLabel.trailingAnchor.constraint(equalTo: maskView.trailingAnchor, constant: -111),
-            typeLabel.bottomAnchor.constraint(equalTo: maskView.bottomAnchor, constant: 0),
+            typeLabel.leadingAnchor.constraint(equalTo: detailMaskView.leadingAnchor, constant: 111),
+            typeLabel.trailingAnchor.constraint(equalTo: detailMaskView.trailingAnchor, constant: -111),
+            typeLabel.bottomAnchor.constraint(equalTo: detailMaskView.bottomAnchor, constant: 0),
             typeLabel.heightAnchor.constraint(equalToConstant: 40)
         ])
         
@@ -243,7 +335,7 @@ class ContentViewController: UIViewController {
             lineView.topAnchor.constraint(equalTo: typeLabel.bottomAnchor, constant: 39),
             lineView.heightAnchor.constraint(equalToConstant: 1)
         ])
-
+        
     }
     
     private func setupGradient(){
@@ -258,10 +350,10 @@ class ContentViewController: UIViewController {
         gradientLayer.endPoint = CGPoint(x: 0.8, y: 0.5)
         gradientLayer.transform = CATransform3DMakeAffineTransform(CGAffineTransform(a: 0, b: 1, c: -1, d: 0, tx: 1, ty: 0))
         gradientLayer.bounds = gradView.bounds.insetBy(dx: -0.5*gradView.bounds.size.width, dy: -0.5*gradView.bounds.size.height)
-
+        
         gradView.layer.insertSublayer(gradientLayer, at: 0)
     }
-
+    
 }
 
 //MARK: Create Gallery
@@ -290,7 +382,7 @@ extension ContentViewController{
             }
             self.dynamicImagesLoad = true
         }
-
+        
     }
     
     //MARK: setupDinamicImageView
@@ -306,6 +398,7 @@ extension ContentViewController{
         contentView.addSubview(maskView)
         
         if let lastView = lastView{
+            
             NSLayoutConstraint.activate([
                 maskView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
                 maskView.topAnchor.constraint(equalTo: lastView.bottomAnchor, constant: 20),
@@ -343,9 +436,10 @@ extension ContentViewController{
         //MARK: Setup gestureRecogniser
         let gestureTap = CustomTapGestureRecognizer(target: self, action:  #selector (self.actionUITapGestureRecognizer(_:)))
         gestureTap.image = image
+        gestureTap.portrait = self.portrait
         imageView.isUserInteractionEnabled = true
         imageView.addGestureRecognizer(gestureTap)
-    
+        
         
         return maskView
     }
@@ -353,6 +447,7 @@ extension ContentViewController{
     @objc func actionUITapGestureRecognizer (_ sender: CustomTapGestureRecognizer){
         let zoom = ZoomViewController()
         zoom.galleryImage = sender.image
+        zoom.portrait = sender.portrait
         zoom.modalPresentationStyle = .fullScreen
         present(zoom, animated: true, completion: nil)
         
@@ -367,10 +462,16 @@ extension ContentViewController: UICollectionViewDelegate,UICollectionViewDataSo
     private func getScrollHeightStory()->CGFloat{
         let closeButton: CGFloat = 40
         let closeToDetail: CGFloat = 30
-        let detailHeight: CGFloat  = 519
+        var detailHeight: CGFloat = 0
+        if portrait{
+            detailHeight = 19 + (screenWidth - 40) * 1.37
+        } else {
+            detailHeight = screenHeight + 19
+        }
         let detailToLine: CGFloat  = 40
         let lineToCollection: CGFloat  = 40
         let collectionHeight: CGFloat = 140
+//        print(textView.frame.height)
         return (closeButton + closeToDetail + detailHeight + detailToLine + lineToCollection + collectionHeight + textView.frame.height + 20)
     }
     
@@ -400,13 +501,23 @@ extension ContentViewController: UICollectionViewDelegate,UICollectionViewDataSo
         collView.dataSource = self
         
         contentView.addSubview(collView)
-        
-        NSLayoutConstraint.activate([
-            collView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
-            collView.topAnchor.constraint(equalTo: lineView.bottomAnchor, constant: 40),
-            collView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
-            collView.heightAnchor.constraint(equalToConstant: 100)
-        ])
+        if self.portrait{
+            NSLayoutConstraint.activate([
+                collView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+                collView.topAnchor.constraint(equalTo: lineView.bottomAnchor, constant: 40),
+                collView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+                collView.heightAnchor.constraint(equalToConstant: 100)
+            ])
+        }else{
+            NSLayoutConstraint.activate([
+                //                collView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+                collView.topAnchor.constraint(equalTo: lineView.bottomAnchor, constant: 40),
+                //                collView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+                collView.heightAnchor.constraint(equalToConstant: 100),
+                collView.widthAnchor.constraint(equalToConstant: 525),
+                collView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
+            ])
+        }
         
         textView.translatesAutoresizingMaskIntoConstraints = false
         textView.layer.borderWidth  = 1
@@ -417,7 +528,7 @@ extension ContentViewController: UICollectionViewDelegate,UICollectionViewDataSo
         textView.lineBreakMode = .byWordWrapping
         textView.textColor = UIColor(red: 1, green: 1, blue: 1, alpha: 1)
         textView.font = UIFont(name: "Rockwell-Regular", size: 24)
-
+        
         contentView.addSubview(textView)
         
         NSLayoutConstraint.activate([
@@ -450,7 +561,7 @@ extension ContentViewController{
         })[0]
         
         cell.settCell(storyPath: path!, storyColor: UIColor(named: color.title)!.cgColor)
-
+        
         return cell
     }
     
@@ -471,6 +582,12 @@ extension ContentViewController{
         let customCell = cell as! StoryCollectionViewCell
         customCell.setNeedsDisplay()
         customCell.anim()
+    }
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        if self.scrollView.contentOffset.x != 0 {
+            self.scrollView.contentOffset.x = 0
+        }
     }
     
 }

@@ -36,12 +36,19 @@
     [self.tableView registerClass:SettingTableViewCell.class forCellReuseIdentifier:@"CellId"];
     self.tableView.layer.masksToBounds = true;
     self.tableView.layer.cornerRadius = 16;
+    self.tableView.showsVerticalScrollIndicator = false;
     [self.view addSubview:self.tableView];
+    
+    UILayoutGuide *safeGuide = self.view.safeAreaLayoutGuide;
+    
+    
+    
     [NSLayoutConstraint activateConstraints:@[
-        [self.tableView.leadingAnchor constraintEqualToAnchor: self.view.leadingAnchor constant:36],
-        [self.tableView.topAnchor constraintEqualToAnchor: self.view.topAnchor constant:120],
-        [self.tableView.trailingAnchor constraintEqualToAnchor: self.view.trailingAnchor constant:-35],
-        [self.tableView.heightAnchor constraintEqualToConstant: 676]
+        [self.tableView.leadingAnchor constraintEqualToAnchor: safeGuide.leadingAnchor constant:20],
+        [self.tableView.topAnchor constraintEqualToAnchor: safeGuide.topAnchor constant:35],
+        [self.tableView.trailingAnchor constraintEqualToAnchor: safeGuide.trailingAnchor constant:-20],
+//        [self.tableView.heightAnchor constraintEqualToConstant: 676]
+        [self.tableView.bottomAnchor constraintEqualToAnchor:safeGuide.bottomAnchor constant:-35]
     ]];
  
 }
@@ -71,6 +78,11 @@
     class.staticColorsArray = self.delegate.colorsArray;
     [self.delegate.tableView reloadData]; //reload first setting table for change detailTextLabel with color
     [self.navigationController popViewControllerAnimated:self];
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForFooterInSection:(NSInteger)section{
+    UIView *view = [[UIView alloc] init];
+    return view;
 }
 
 
