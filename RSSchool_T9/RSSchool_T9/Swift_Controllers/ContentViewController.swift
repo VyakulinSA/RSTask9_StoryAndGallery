@@ -238,11 +238,12 @@ class ContentViewController: UIViewController {
             screenHeight = UIScreen.main.bounds.height
             screenWidth = UIScreen.main.bounds.width
             NSLayoutConstraint.activate([
-                detailMaskView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
+//                detailMaskView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 20),
                 detailMaskView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 70),
-                detailMaskView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
+//                detailMaskView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -20),
                 detailMaskView.widthAnchor.constraint(equalToConstant: self.screenWidth - 40),
-                detailMaskView.heightAnchor.constraint(equalToConstant: ((self.screenWidth - 40) * 1.37) + 19)
+                detailMaskView.heightAnchor.constraint(equalToConstant: ((self.screenWidth - 40) * 1.37) + 19),
+                detailMaskView.centerXAnchor.constraint(equalTo: contentView.centerXAnchor)
             ])
         }else{
             screenHeight = UIScreen.main.bounds.height
