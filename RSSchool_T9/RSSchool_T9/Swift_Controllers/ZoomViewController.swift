@@ -35,6 +35,7 @@ class ZoomViewController: UIViewController {
         scrollView.showsVerticalScrollIndicator = true
         scrollView.flashScrollIndicators()
         scrollView.contentInsetAdjustmentBehavior = .scrollableAxes
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         
         self.view.addSubview(scrollView)
         
@@ -66,17 +67,17 @@ class ZoomViewController: UIViewController {
         
         if portrait{
             NSLayoutConstraint.activate([
-                imageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 172),
-                imageView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -172),
-                imageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
-                imageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor)
+                imageView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 172),
+                imageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: -172),
+                imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+                imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
             ])
         } else {
             NSLayoutConstraint.activate([
-                imageView.topAnchor.constraint(equalTo: safeGuide.topAnchor, constant: 0),
-                imageView.bottomAnchor.constraint(equalTo: safeGuide.bottomAnchor, constant: 0),
-                imageView.leadingAnchor.constraint(equalTo: safeGuide.leadingAnchor, constant: 172),
-                imageView.trailingAnchor.constraint(equalTo: safeGuide.trailingAnchor, constant: -172)
+                imageView.topAnchor.constraint(equalTo: self.view.topAnchor, constant: 0),
+                imageView.bottomAnchor.constraint(equalTo: self.view.bottomAnchor, constant: 0),
+                imageView.leadingAnchor.constraint(equalTo: self.view.leadingAnchor, constant: 172),
+                imageView.trailingAnchor.constraint(equalTo: self.view.trailingAnchor, constant: -172)
             ])
         }
 
